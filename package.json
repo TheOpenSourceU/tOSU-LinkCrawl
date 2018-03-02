@@ -1,13 +1,13 @@
 {
   "name": "tosu-linkcrawl",
   "version": "1.0.0",
-  "description": "",
+  "description": "Conceptual Link checker crawler for theOpenSourceU.org",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Frank Villasenor <frank@theopensourceu.org>",
+  "license": "MIT",
   "dependencies": {
     "hashset": "0.0.6",
     "scrape-it": "^5.0.2"
