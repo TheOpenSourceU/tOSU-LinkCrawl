@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "hashset": "0.0.6",
     "scrape-it": "^5.0.2"
   }
 }
