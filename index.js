@@ -2,27 +2,38 @@
 
 const scrapeIt = require("scrape-it");
 const HashSet = require('hashset');
-
-const uniqueInternalLinks = new HashSet();
-
 const filters = require('./filters/all');
 
 
 const targetStart = "https://theOpenSourceU.org";
+scrape(targetStart);
 
-// Promise interface
-scrapeIt(targetStart, filters)
-  .catch(console.log)
-  .then(report)
 
-  .then(itms => {
+function scrape(target) {
+
+
+  // Promise interface
+  scrapeIt(target, filters)
+    .catch(console.log)
+    .then(report)
+
+    .then(itms => {
       const linkList = itms.all;
-    linkList.forEach(itm => {
+      const uniqueInternalLinks = new HashSet(); //ensures they are unique, first of all.
+      linkList.forEach(itm => {
         uniqueInternalLinks.add(itm.link || ''); //should make sure we're unique
       });
       console.log('done adding items: ', uniqueInternalLinks.toArray());
-  })
-;
+      return uniqueInternalLinks.toArray();
+    })
+    .then(uniqueLinks => {
+        //We'll probably want bluebird for this for the utility.
+    })
+    //scrape all results
+  ;
+}
+
+
 
 
 
