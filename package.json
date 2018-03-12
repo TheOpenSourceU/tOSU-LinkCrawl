@@ -10,6 +10,7 @@
   "author": "Frank Villasenor <frank@theopensourceu.org>",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "hashset": "0.0.6",
     "scrape-it": "^5.0.2"
   }

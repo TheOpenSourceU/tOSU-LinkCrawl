@@ -3,23 +3,33 @@
 const scrapeIt = require("scrape-it");
 const HashSet = require('hashset');
 const filters = require('./filters/all');
+const promise = require('bluebird');
 
+const uniqueInternalLinks = new HashSet(); //ensures they are unique, first of all.
+const completedLinks = new HashSet();
+completedLinks.add('/');
 
 const targetStart = "https://theOpenSourceU.org";
-scrape(targetStart);
-
+scrape(targetStart)
+  .then(() => {
+    console.log('completedLinks: ', completedLinks.toArray());
+  });
 
 function scrape(target) {
 
+  if( completedLinks.contains(target) ) {
+    return promise.resolve({ target:target, status: 'passed' });
+  }
+
+  completedLinks.add(target);
 
   // Promise interface
-  scrapeIt(target, filters)
-    .catch(console.log)
+  return scrapeIt(target, filters)
     .then(report)
 
     .then(itms => {
       const linkList = itms.all;
-      const uniqueInternalLinks = new HashSet(); //ensures they are unique, first of all.
+
       linkList.forEach(itm => {
         uniqueInternalLinks.add(itm.link || ''); //should make sure we're unique
       });
@@ -27,8 +37,19 @@ function scrape(target) {
       return uniqueInternalLinks.toArray();
     })
     .then(uniqueLinks => {
-        //We'll probably want bluebird for this for the utility.
-    })
+      //We'll probably want bluebird for this for the utility.
+      const promises = [];
+      uniqueLinks.forEach(link => {
+        var p = scrape(`${targetStart}${link}`, filters);
+        promises.push(p);
+      });
+      return promise
+        .all(promises) //maybe join instead.
+        .then(allResult => {
+          console.log('allResults', allResult); //check
+          return allResult;                     //pass
+        });
+    }).catch(console.log)
     //scrape all results
   ;
 }
