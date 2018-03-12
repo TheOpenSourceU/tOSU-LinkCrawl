@@ -8,10 +8,10 @@ const uniqueInternalLinks = new HashSet();
 const filters = require('./filters/all');
 
 
-
+const targetStart = "https://theOpenSourceU.org";
 
 // Promise interface
-scrapeIt("https://theOpenSourceU.org", filters)
+scrapeIt(targetStart, filters)
   .catch(console.log)
   .then(report)
 
@@ -39,6 +39,6 @@ scrapeIt("https://theOpenSourceU.org", filters)
 function report({data, response}) {
   console.log(`Status Code: ${response.statusCode}`);
   if(response.statusCode !== 200) throw new "statusCode not 200";
-  console.log('data:', data);
+  console.log('data:', '<not displayed>');
   return data;
 }

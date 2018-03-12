@@ -4,9 +4,12 @@ module.exports = function(elm) {
     return '';
 
   if(elm.startsWith('http') && !elm.startsWith('https://theopensourceu')) {
-    console.log('http', elm);
+    //console.log('http rejected', elm);
     return '';
   }
-  console.log('convert: ', elm);
+  if(elm === 'https://theopensourceu.org') {
+    return '/';
+  }
+  //console.log('success: ', elm);
   return elm.replace('https://theopensourceu.org/', '/');
 };
