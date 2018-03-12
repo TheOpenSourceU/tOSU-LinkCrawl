@@ -12,7 +12,9 @@ completedLinks.add('/');
 const targetStart = "https://theOpenSourceU.org";
 scrape(targetStart)
   .then(() => {
-    console.log('completedLinks: ', completedLinks.toArray());
+    const completedArr = completedLinks.toArray();
+    console.log('completedLinks: ', completedArr);
+    console.log('         Count:', completedArr.length)
   });
 
 function scrape(target) {
